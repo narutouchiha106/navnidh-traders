@@ -1,0 +1,12 @@
+{% extends 'admin/base.html' %}{% block content %}<h3>{{ 'Edit' if p else 'Add' }} Product</h3><form method="post" enctype="multipart/form-data" class="row g-3" style="max-width:800px"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<div class="col-12"><input class="form-control" name="name" placeholder="Name" value="{{ p.name if p else '' }}" required></div>
+<div class="col-md-6"><select class="form-select" name="category_id">{% for c in cats %}<option value="{{ c.id }}" {% if p and p.category_id==c.id %}selected{% endif %}>{{ c.name }}</option>{% endfor %}</select></div>
+<div class="col-md-6"><input class="form-control" name="brand" placeholder="Brand" value="{{ p.brand if p else 'Navnidh' }}"></div>
+<div class="col-md-4"><input class="form-control" type="number" name="price" placeholder="Price ₹" value="{{ p.price if p else '' }}" required></div>
+<div class="col-md-4"><input class="form-control" type="number" name="discount_price" placeholder="Discount price ₹" value="{{ (p.discount_price or '') if p else '' }}"></div>
+<div class="col-md-4"><input class="form-control" type="number" name="stock" placeholder="Stock" value="{{ p.stock if p else 10 }}"></div>
+<div class="col-12"><textarea class="form-control" name="description" rows="3" placeholder="Description">{{ (p.description or '') if p else '' }}</textarea></div>
+<div class="col-12"><textarea class="form-control" name="specs" rows="4" placeholder="Specifications – one per line, e.g. Material: Mesh">{{ (p.specs or '') if p else '' }}</textarea></div>
+<div class="col-12"><input class="form-control" type="file" name="image" accept=".jpg,.jpeg,.png,.webp"></div>
+<div class="col-12">{% for k,l in [('featured','Featured'),('bestseller','Bestseller'),('is_new','New arrival')] %}<label class="me-3"><input type="checkbox" name="{{ k }}" {% if p and p[k] %}checked{% endif %}> {{ l }}</label>{% endfor %}</div>
+<div class="col-12"><button class="btn btn-brown">Save</button></div></form>{% endblock %}

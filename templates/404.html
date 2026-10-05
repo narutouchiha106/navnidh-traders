@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block body %}<div class="container section text-center"><h1>{{ 'Something went wrong' if server else 'Page not found' }}</h1><a class="btn btn-brown" href="{{ url_for('index') }}">Back to Home</a></div>{% endblock %}

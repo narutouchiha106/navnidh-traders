@@ -1,0 +1,12 @@
+{% extends 'base.html' %}{% block title %}Checkout – Navnidh Traders{% endblock %}
+{% block body %}<div class="container section"><h1 class="h2 mb-4">Checkout</h1>
+<form method="post" class="row g-4"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<div class="col-lg-7"><div class="row g-3">
+{% for n,l,ty,w in [('name','Full Name','text',12),('phone','Mobile Number','tel',6),('email','Email','email',6),('address','Address','text',12),('city','City','text',4),('state','State','text',4),('pincode','Pincode','text',4)] %}
+<div class="col-md-{{ w }}"><label class="form-label">{{ l }}</label><input class="form-control" type="{{ ty }}" name="{{ n }}" value="{{ f.get(n,'') }}" required></div>{% endfor %}
+<div class="col-12"><label class="form-label">Delivery instructions</label><textarea class="form-control" name="notes" rows="2">{{ f.get('notes','') }}</textarea></div>
+<div class="col-12"><h5>Payment</h5><label class="d-block"><input type="radio" name="payment" value="cod" checked> Cash on Delivery</label>
+<label class="d-block text-muted"><input type="radio" name="payment" value="online"> Online Payment (gateway coming soon – order saved as pending)</label></div></div></div>
+<div class="col-lg-5"><div class="feat"><h5>Order Summary</h5>{% for p,q in items %}<div class="d-flex justify-content-between small"><span>{{ p.name }} × {{ q }}</span><span>₹{{ '{:,}'.format(p.now_price*q) }}</span></div>{% endfor %}<hr>
+<div class="d-flex justify-content-between"><span>Delivery</span><span>{{ 'Free' if t[1]==0 else '₹'~t[1] }}</span></div>
+<div class="d-flex justify-content-between fw-bold fs-5"><span>Total</span><span>₹{{ '{:,}'.format(t[2]) }}</span></div><button class="btn btn-brown w-100 mt-3">Place Order</button></div></div></form></div>{% endblock %}

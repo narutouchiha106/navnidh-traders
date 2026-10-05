@@ -1,0 +1,2 @@
+{% extends 'admin/base.html' %}{% block content %}<div class="row g-3 mb-4">{% for k,v in s.items() %}<div class="col-6 col-md-4"><div class="feat"><small class="text-muted">{{ k }}</small><div class="fs-3 fw-bold">{{ v }}</div></div></div>{% endfor %}</div>
+<h5>Recent Orders</h5><table class="table"><tr><th>#</th><th>Customer</th><th>Total</th><th>Status</th></tr>{% for o in recent %}<tr><td>{{ o.id }}</td><td>{{ o.name }}</td><td>₹{{ o.total }}</td><td>{{ o.status }}</td></tr>{% endfor %}</table>{% endblock %}

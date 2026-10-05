@@ -1,0 +1,30 @@
+{% extends 'base.html' %}{% from '_card.html' import card %}
+{% block title %}Shop Chairs – Navnidh Traders{% endblock %}
+{% block body %}
+<div class="page-shell">
+ <div class="container">
+  <div class="breadcrumb-lite mb-3 reveal"><a href="{{ url_for('index') }}" class="text-decoration-none">Home</a> / Shop</div>
+  <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4 reveal">
+   <div><div class="eyebrow" style="font-size:.72rem;letter-spacing:.15em;color:var(--brown);font-weight:800;text-transform:uppercase">The collection</div><h1 class="display-5 fw-bold mb-1">Shop chairs</h1><p class="text-muted mb-0">Find the right balance of comfort, style and price.</p></div>
+   <div class="small text-muted">{{ pg.total }} products</div>
+  </div>
+  <form class="search-panel row g-2 mb-5 reveal" action="{{ url_for('shop') }}">
+   <div class="col-12 col-md-3"><input class="form-control" name="q" value="{{ args.get('q','') }}" placeholder="Search products…"></div>
+   <div class="col-6 col-md-2"><select class="form-select" name="category"><option value="">All categories</option>{% for c in cats %}<option value="{{ c.slug }}" {% if args.get('category')==c.slug %}selected{% endif %}>{{ c.name }}</option>{% endfor %}</select></div>
+   <div class="col-6 col-md-2"><select class="form-select" name="max"><option value="">Any price</option>{% for v in [2000,5000,10000,15000] %}<option value="{{ v }}" {% if args.get('max')==v|string %}selected{% endif %}>Up to ₹{{ '{:,}'.format(v) }}</option>{% endfor %}</select></div>
+   <div class="col-6 col-md-2"><select class="form-select" name="rating"><option value="">Any rating</option><option value="4" {% if args.get('rating')=='4' %}selected{% endif %}>4★ & up</option><option value="4.5" {% if args.get('rating')=='4.5' %}selected{% endif %}>4.5★ & up</option></select></div>
+   <div class="col-6 col-md-2"><select class="form-select" name="sort">{% for k,l in [('','Popularity'),('new','Newest'),('low','Price: Low to High'),('high','Price: High to Low'),('rating','Rating')] %}<option value="{{ k }}" {% if args.get('sort','')==k %}selected{% endif %}>{{ l }}</option>{% endfor %}</select></div>
+   <div class="col-12 col-md-1"><button class="btn btn-brown w-100">Go</button></div>
+   <div class="col-12"><label class="small text-muted"><input type="checkbox" name="instock" value="1" {% if args.get('instock') %}checked{% endif %}> In stock only</label></div>
+  </form>
+  {% if pg.items %}
+  <div class="row g-4">{% for p in pg.items %}<div class="col-6 col-md-4 col-lg-3 reveal reveal-delay-{{ (loop.index0 % 4)+1 }}">{{ card(p, wa_link) }}</div>{% endfor %}</div>
+  <nav class="mt-5 d-flex justify-content-center align-items-center gap-3">
+   {% if pg.has_prev %}<a class="btn btn-outline-brown" href="{{ url_for('shop',page=pg.prev_num,**args) }}">← Previous</a>{% endif %}
+   <span class="small text-muted">Page {{ pg.page }} of {{ pg.pages }}</span>
+   {% if pg.has_next %}<a class="btn btn-outline-brown" href="{{ url_for('shop',page=pg.next_num,**args) }}">Next →</a>{% endif %}
+  </nav>
+  {% else %}<div class="empty-state text-center reveal"><h4>No chairs found</h4><p class="text-muted">Try a different search or clear your filters.</p><a class="btn btn-brown" href="{{ url_for('shop') }}">Clear filters</a></div>{% endif %}
+ </div>
+</div>
+{% endblock %}

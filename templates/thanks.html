@@ -1,0 +1,2 @@
+{% extends 'base.html' %}{% block body %}<div class="container section text-center"><h1>Thank you, {{ o.name }}!</h1>
+<p class="lead">Order #{{ o.id }} placed. Total ₹{{ '{:,}'.format(o.total) }} ({{ o.payment }}). We will contact you on {{ o.phone }} to confirm.</p><a class="btn btn-brown" href="{{ url_for('shop') }}">Continue Shopping</a></div>{% endblock %}

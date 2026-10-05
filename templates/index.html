@@ -1,0 +1,108 @@
+{% extends 'base.html' %}{% from '_card.html' import card %}
+{% block body %}
+<section class="hero">
+ <div class="container">
+  <div class="hero-grid">
+   <div class="hero-copy">
+    <div class="hero-kicker hero-reveal"><span></span> Premium seating · Built for everyday comfort</div>
+    <h1 class="hero-reveal delay">Comfort meets <span class="gold">character.</span></h1>
+    <p class="lead hero-reveal delay2">Premium chairs and furniture for workspaces, homes and businesses — selected for comfort, durability and clean design.</p>
+    <div class="hero-actions hero-reveal delay2">
+     <a class="btn btn-lg btn-brown" href="{{ url_for('shop') }}">Shop Collection <span>→</span></a>
+     <a class="btn btn-lg btn-outline-light" href="#cats">Explore Categories</a>
+    </div>
+    <div class="hero-proof hero-reveal delay3">
+     <div><strong>Comfort-first</strong><span>Curated seating</span></div>
+     <i></i>
+     <div><strong>Built to last</strong><span>Everyday durability</span></div>
+     <i></i>
+     <div><strong>Easy support</strong><span>Local assistance</span></div>
+    </div>
+   </div>
+
+   <div class="hero-visual hero-reveal delay2" aria-hidden="true">
+    <div class="hero-orbit hero-orbit-one"></div>
+    <div class="hero-orbit hero-orbit-two"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-product">
+     <div class="hero-product-top">
+      <span>CURATED FOR YOU</span>
+      <span class="hero-dot"></span>
+     </div>
+     {% if cats %}
+     <img src="{{ url_for('chair_svg',color=cats[0].color[1:]) }}" alt="" loading="eager">
+     {% else %}
+     <div class="hero-chair-fallback"></div>
+     {% endif %}
+     <div class="hero-product-caption">
+      <div><span>01</span><strong>{{ cats[0].name if cats else 'Premium Seating' }}</strong></div>
+      <span class="hero-arrow">↗</span>
+     </div>
+    </div>
+    <div class="hero-floating-card">
+     <span class="mini-star">✦</span>
+     <div><strong>Designed for daily life</strong><small>Comfort that looks as good as it feels.</small></div>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section class="section" id="cats">
+ <div class="container">
+  <div class="section-heading reveal"><div class="eyebrow">Find your fit</div><h2>Shop by category</h2><p>From focused work to relaxed dining, choose a chair made for the way you use your space.</p></div>
+  <div class="row g-4">
+   {% for c in cats %}
+   <div class="col-6 col-md-4 col-lg-3 reveal reveal-delay-{{ (loop.index0 % 4)+1 }}">
+    <a class="text-decoration-none" href="{{ url_for('category',slug=c.slug) }}">
+     <div class="cat-card">
+      <img loading="lazy" src="{{ url_for('chair_svg',color=c.color[1:]) }}" alt="{{ c.name }}">
+      <div class="cat-content"><h5>{{ c.name }}</h5><p>{{ c.description }}</p><span class="btn btn-sm">View collection →</span></div>
+     </div>
+    </a>
+   </div>
+   {% endfor %}
+  </div>
+ </div>
+</section>
+
+<section class="section alt">
+ <div class="container">
+  <div class="section-heading reveal"><div class="eyebrow">Curated picks</div><h2>Featured products</h2><p>Popular pieces ready to make your space more comfortable.</p></div>
+  <div class="row g-4">{% for p in featured %}<div class="col-6 col-md-4 col-lg-3 reveal reveal-delay-{{ (loop.index0 % 4)+1 }}">{{ card(p, wa_link) }}</div>{% endfor %}</div>
+  {% if not featured %}<div class="empty-state text-center reveal"><h4>No featured products yet</h4><p class="text-muted mb-3">Add featured products from the admin panel.</p><a class="btn btn-brown" href="{{ url_for('shop') }}">Browse all products</a></div>{% endif %}
+ </div>
+</section>
+
+<section class="section">
+ <div class="container">
+  <div class="section-heading reveal"><div class="eyebrow">Why Navnidh</div><h2>Made for real spaces</h2><p>Simple reasons customers choose us when comfort and value both matter.</p></div>
+  <div class="row g-4">
+   {% for t,d,icon in [('Premium Quality','Durable materials built to last.','01'),('Comfortable Designs','Ergonomic seating for everyday use.','02'),('Competitive Prices','Honest pricing with regular offers.','03'),('Wide Product Range','Chairs for home, office and business.','04'),('Trusted Service','Straightforward local support.','05'),('Fast Delivery','Quick, careful doorstep delivery.','06')] %}
+   <div class="col-md-4 reveal reveal-delay-{{ (loop.index0 % 3)+1 }}"><div class="feat"><div class="feature-icon">{{ icon }}</div><h5>{{ t }}</h5><p class="mb-0 text-muted">{{ d }}</p></div></div>
+   {% endfor %}
+  </div>
+ </div>
+</section>
+
+<section class="section alt">
+ <div class="container">
+  <div class="section-heading reveal"><div class="eyebrow">Customer voice</div><h2>What people say</h2><p>Sample reviews — replace these with your verified customer feedback.</p></div>
+  <div class="row g-4">
+   {% for n,r in [('Customer A','Very comfortable chair and great finish. Delivery was on time.'),('Customer B','Helpful on WhatsApp and the price was fair.'),('Customer C','Sturdy build quality. Our office loves it.')] %}
+   <div class="col-md-4 reveal reveal-delay-{{ loop.index }}"><div class="feat"><div class="rating mb-3">★★★★★</div><p class="mb-3">“{{ r }}”</p><strong>{{ n }}</strong><small class="text-muted d-block">Sample review</small></div></div>
+   {% endfor %}
+  </div>
+ </div>
+</section>
+
+<section class="section pt-0">
+ <div class="container">
+  <div class="rounded-5 p-5 text-center text-white reveal" style="background:radial-gradient(circle at 80% 20%,#8b542f,#2a1a10 70%);overflow:hidden">
+   <div class="eyebrow" style="color:#e1bc76">Ready to upgrade?</div><h2 class="display-6 fw-bold">Find the right chair for your space.</h2>
+   <p class="lead text-white-50">Explore the complete collection and compare your options.</p>
+   <a class="btn btn-light btn-lg mt-2" href="{{ url_for('shop') }}">Shop all chairs →</a>
+  </div>
+ </div>
+</section>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends 'base.html' %}{% block title %}{{ 'Login' if mode=='login' else 'Register' }} – Navnidh Traders{% endblock %}
+{% block body %}<div class="container section" style="max-width:420px"><h1 class="h3 mb-3">{{ 'Login' if mode=='login' else 'Create account' }}</h1>
+<form method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+{% if mode=='register' %}<input class="form-control mb-3" name="name" placeholder="Full name" required>{% endif %}
+<input class="form-control mb-3" type="email" name="email" placeholder="Email" required><input class="form-control mb-3" type="password" name="password" placeholder="Password" required>
+<button class="btn btn-brown w-100">{{ 'Login' if mode=='login' else 'Register' }}</button></form>
+<p class="mt-3 small">{% if mode=='login' %}New here? <a href="{{ url_for('register') }}">Create an account</a>{% else %}Have an account? <a href="{{ url_for('login') }}">Login</a>{% endif %}</p></div>{% endblock %}

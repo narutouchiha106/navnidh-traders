@@ -1,0 +1,4 @@
+{% extends 'admin/base.html' %}{% block content %}<a class="btn btn-brown mb-3" href="{{ url_for('admin_product') }}">+ Add Product</a>
+<div class="table-responsive"><table class="table align-middle"><tr><th></th><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th></th></tr>{% for p in ps %}
+<tr><td><img src="{{ p.img }}" width="48"></td><td>{{ p.name }}</td><td>{{ p.category.name }}</td><td>₹{{ p.now_price }}</td><td>{{ p.stock }}</td><td class="text-nowrap"><a class="btn btn-sm btn-outline-brown" href="{{ url_for('admin_product',pid=p.id) }}">Edit</a>
+<form class="d-inline" method="post" action="{{ url_for('admin_delete',pid=p.id) }}" onsubmit="return confirm('Delete this product?')"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn btn-sm btn-outline-danger">Delete</button></form></td></tr>{% endfor %}</table></div>{% endblock %}
